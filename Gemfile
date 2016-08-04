@@ -19,6 +19,7 @@ group :development, :test do
   gem 'mocha'
   gem 'rack-test'
   gem 'rack-minitest', git: 'git://github.com/brandonweiss/rack-minitest.git'
+  gem 'webmock'
   gem 'foreman'
 end
 

@@ -17,6 +17,11 @@ namespace :test do
     t.verbose = false
   end
 
+  Rake::TestTask.new :service_wrappers do |t|
+    t.pattern = "service_wrappers/test/*_test.rb"
+    t.verbose = false
+  end
+
 end
 
-task :test => ['test:pet_service', 'test:arena_service', 'test:contest_worker']
+task :test => ['test:pet_service', 'test:arena_service', 'test:contest_worker', 'test:service_wrappers']

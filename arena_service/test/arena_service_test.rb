@@ -160,7 +160,7 @@ describe "Arena Service" do
 
       describe 'invalid pet_one_id' do
         before do
-          pet_svc_wrapper.expects(:get).with(2).raises(Faraday::Bang::Response404Error.new(mock(env: mock(url: 'pet/check/url'), status: 404)))
+          pet_svc_wrapper.expects(:get).with(2).raises(PetServiceWrapper::InvalidPetError)
         end
 
         it "renders an error" do
@@ -175,7 +175,7 @@ describe "Arena Service" do
       describe 'invalid pet_two_id' do
         before do
           pet_svc_wrapper.expects(:get).with(2).returns(true)
-          pet_svc_wrapper.expects(:get).with(4).raises(Faraday::Bang::Response404Error.new(mock(env: mock(url: 'pet/check/url'), status: 404)))
+          pet_svc_wrapper.expects(:get).with(4).raises(PetServiceWrapper::InvalidPetError)
         end
 
         it "renders an error" do

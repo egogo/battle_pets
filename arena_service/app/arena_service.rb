@@ -80,7 +80,7 @@ module ArenaService
     def validate_pet!(field, id)
       @pet_svc_wrap ||= PetServiceWrapper.new
       @pet_svc_wrap.get(id)
-    rescue Faraday::Bang::Response404Error
+    rescue PetServiceWrapper::ServiceError
       halt 400, { message: "Pet with ID #{id} is not a valid pet", errors: { field => "'#{id}' is not a valid Pet ID"} }.to_json
     end
   end
