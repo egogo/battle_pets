@@ -14,6 +14,7 @@ describe "Arena Service" do
   let(:contest_a) { Contest.create(title: 'Contest #1', first_pet_id: 1, second_pet_id: 2, winner_id: 2, type: 'strength') }
   let(:contest_b) { Contest.create(title: 'Contest #2', first_pet_id: 1, second_pet_id: 2, winner_id: 1, type: 'wit') }
   let(:contest_c) { Contest.create(title: 'Contest #3', first_pet_id: 10, second_pet_id: 11, type: 'agility') }
+  let(:contest_d) { Contest.create(title: 'Contest #4', first_pet_id: 11, second_pet_id: 12, type: 'senses') }
 
   describe 'GET /api/v1/contests.json' do
     before { [contest_a, contest_b] }
@@ -44,6 +45,35 @@ describe "Arena Service" do
                                 started_at: nil,
                                 finished_at: nil
                             })
+    end
+    describe 'filters' do
+      before { [contest_c, contest_d] }
+      it "should return a list of existing contests, filtered by contestant ID" do
+        get '/api/v1/contests.json', contestant_id: 11
+        json = json(last_response.body)
+        json.size.must_equal 2
+
+        json.include?({
+                          id: contest_c.id,
+                          title: 'Contest #3',
+                          type: 'agility',
+                          first_pet_id: 10,
+                          second_pet_id: 11,
+                          winner_id: nil,
+                          started_at: nil,
+                          finished_at: nil
+                      }).must_equal true
+        json.include?({
+                          id: contest_d.id,
+                          title: 'Contest #4',
+                          type: 'senses',
+                          first_pet_id: 11,
+                          second_pet_id: 12,
+                          winner_id: nil,
+                          started_at: nil,
+                          finished_at: nil
+                      }).must_equal true
+      end
     end
   end
 

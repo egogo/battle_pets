@@ -37,7 +37,8 @@ module ArenaService
     end
 
     get '/api/v1/contests.json' do
-      Contest.all.to_json
+      param :contestant_id, Integer, required: false
+      Contest.for_contestant(params[:contestant_id]).all.to_json
     end
 
     post '/api/v1/contests.json' do
